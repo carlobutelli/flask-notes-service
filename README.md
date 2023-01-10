@@ -1,6 +1,6 @@
-# Flask init template
+# Flask Notes service
 ---------------------
-This is a simple init template base to start building services with Python Flask.
+This is a simple notes api using Python Flask and Postgresql.
 
 N.B. Requires Docker to be installed and Python3
 
