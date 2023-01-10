@@ -1,0 +1,41 @@
+Check if services are available. Main purpose is to respond to k8s liveness/readyness probes
+---
+tags:
+  - Admin
+produces:
+  - application/json
+definitions:
+  Services:
+    type: object
+    properties:
+      serviceName:
+        type: object
+        $ref: '#/definitions/Service'
+  Service:
+    type: object
+    properties:
+      healthy:
+        type: boolean
+        example: true
+responses:
+  200:
+    description: Services up
+    schema:
+      type: array
+      items:
+        $ref: '#/definitions/Services'
+    examples:
+      serviceOne:
+        healthy: true
+      serviceTwo:
+        healthy: true
+  500:
+    description: At least one of the dependencies is not available. Check logs
+    schema:
+      $ref: '#/definitions/BaseResponse'
+    examples:
+      BaseResponse:
+        status: ERROR
+        status_code: 500
+        message: "internal server error"
+        transaction_id: 1k838bv9-9876-1234-1a23-5g87165bef5e

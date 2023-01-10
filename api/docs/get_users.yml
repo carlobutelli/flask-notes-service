@@ -1,0 +1,66 @@
+Retrive all the users
+---
+tags:
+  - User
+produces:
+  - application/json
+definitions:
+  Attributes:
+    type: object
+    properties:
+      name:
+        type: string
+        example: Carlo
+      phone:
+        type: string
+        example: 0031098765
+      email:
+        type: string
+        example: "some@mail.com"
+  UserData:
+    type: object
+    properties:
+      id:
+        type: string
+        example: d13bdba3-7209-4abb-9ad6-7534631a4710
+      attributes:
+        type: object
+        $ref: '#/definitions/Attributes'
+      type:
+        type: string
+        example: User
+  DataResponse:
+    type: array
+    items:
+      $ref: '#/definitions/UserData'
+  UserDataResponse:
+    type: object
+    properties:
+      meta:
+        $ref: '#/definitions/BaseResponse'
+      data:
+        $ref: '#/definitions/DataResponse'
+responses:
+  200:
+    description: returns list of users
+    schema:
+      $ref: "#/definitions/UserDataResponse"
+    examples:
+      UserCreationResponse:
+        meta:
+          status: OK
+          status_code: 200
+          message: "all users successfully retrieved"
+          transaction_id: 1k838bv9-9876-1234-1a23-5g87165bef5e
+        data:
+          user: 6131697d-39b4-4878-9322-636addd304e5
+  500:
+    description: Internal server error. Check logs
+    schema:
+      $ref: '#/definitions/BaseResponse'
+    examples:
+      BaseResponse:
+        status: ERROR
+        status_code: 500
+        message: "internal server error"
+        transaction_id: 1k838bv9-9876-1234-1a23-5g87165bef5e

@@ -1,0 +1,51 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "TAS - Todos App Service",
+    "version": "0.0.1",
+    "contact": {
+      "name": "API Support",
+      "email": "somebody@domain.com"
+    },
+    "description": "API useful description"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "tags": [
+    {
+      "name": "Admin",
+      "description": "health checks on services used by the API"
+    },
+    {
+      "name": "Ping",
+      "description": "App readiness"
+    },
+    {
+      "name": "User",
+      "description": "Users"
+    }
+  ],
+  "definitions": {
+    "BaseResponse": {
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "status_code": {
+          "type": "number"
+        },
+        "message": {
+          "type": "string"
+        },
+        "transaction_id": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  }
+}

@@ -1,0 +1,47 @@
+version: '3.1'
+services:
+  postgres:
+    container_name: todos_psdb
+    image: postgres:13.0
+    environment:
+      - DEBUG=false
+      - DB_EXTENSION=plpgsql,pg_trgm
+      - POSTGRES_USER=loki
+      - POSTGRES_PASSWORD=d0nt4get
+      - POSTGRES_DB=notes
+      - POSTGRES_TEST_DB=notes-test
+    volumes:
+      - ./create-test-db.sh:/docker-entrypoint-initdb.d/create-test-db.sh
+    ports:
+      - "5432:5432"
+    networks:
+      - net1
+
+  api:
+    container_name: api
+    privileged: true
+    build:
+      context: ./
+      dockerfile: Dockerfile-dev
+    environment:
+#      - SQLALCHEMY_DATABASE_URI=postgresql+psycopg2://notes-service-api:d0nt4get@postgres:5432/notes
+      - DATABASE_URL=postgresql+psycopg2://loki:d0nt4get@postgres:5432/notes
+      - DATABASE_TEST_URL=postgresql+psycopg2://loki:d0nt4get@postgres:5432/notes-test
+      - FLASK_APP=api
+      - FLASK_DEBUG=1
+      - FLASK_ENV=development
+      - APP_SETTINGS=Development
+    depends_on:
+      - postgres
+    links:
+      - postgres:postgres
+    ports:
+      - "8080:8080"
+    volumes:
+      - ".:/code"
+    networks:
+      - net1
+
+networks:
+  net1:
+    driver: bridge

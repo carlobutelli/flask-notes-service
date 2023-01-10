@@ -1,0 +1,104 @@
+Update user
+---
+tags:
+  - User
+produces:
+  - application/json
+parameters:
+  - in: path
+    name: guid   # Note the name is the same as in the path
+    required: true
+    schema:
+      type: string
+    description: ID of user to update
+    example: 3f838cf7-4360-4847-8c83-7f53165bef4c
+  - in: body
+    name: data
+    schema:
+      properties:
+        name:
+          type: string
+          description: User name
+          example: "Liam"
+        phone:
+          type: string
+          description: User phone
+          example: "+390622334455"
+        email:
+          type: string
+          description: email of the user
+          example: "some@email.com"
+definitions:
+  Attributes:
+    type: object
+    properties:
+      name:
+        type: string
+        example: Carlo
+      phone:
+        type: string
+        example: 0031098765
+      email:
+        type: string
+        example: "some@email.com"
+      created_at:
+        type: date
+        example: '2019-06-05 13:35:47.928578'
+      updated_at:
+        type: date
+        example: '2019-06-05 13:35:47.928578'
+  UserData:
+    type: object
+    properties:
+      id:
+        type: string
+        example: d13bdba3-7209-4abb-9ad6-7534631a4710
+      attributes:
+        type: object
+        $ref: '#/definitions/Attributes'
+      type:
+        type: string
+        example: User
+  UserDataResponse:
+    type: object
+    properties:
+      meta:
+        $ref: '#/definitions/BaseResponse'
+      data:
+        $ref: '#/definitions/UserData'
+responses:
+  200:
+    description: returns the updated user
+    schema:
+      $ref: "#/definitions/UserDataResponse"
+    examples:
+      UserCreationResponse:
+        meta:
+          status: OK
+          status_code: 200
+          message: "user successfully updated"
+          transaction_id: 1k838bv9-9876-1234-1a23-5g87165bef5e
+        data:
+          id: 6131697d-39b4-4878-9322-636addd304e5
+  400:
+    description: Bad request
+    schema:
+      $ref: "#/definitions/BaseResponse"
+    examples:
+      BaseResponse:
+        meta:
+          status: ERROR
+          status_code: 400
+          message: "specific error message"
+          transaction_id: 1k838bv9-9876-1234-1a23-5g87165bef5e
+  500:
+    description: Internal server error"
+    schema:
+      $ref: '#/definitions/BaseResponse'
+    examples:
+      BaseResponse:
+        meta:
+          status: ERROR
+          status_code: 500
+          message: "internal server error"
+          transaction_id: 1k838bv9-9876-1234-1a23-5g87165bef5e

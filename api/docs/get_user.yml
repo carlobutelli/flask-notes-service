@@ -1,0 +1,109 @@
+Retrive a single user by guid
+---
+tags:
+  - User
+#produces:
+#  - application/json
+parameters:
+  - in: path
+    name: guid
+    required: true
+    schema:
+      type: string
+    description: GUID of the user to fetch
+    example: 3f838cf7-4360-4847-8c83-7f53165bef4c
+  - in: query
+    name: offset
+    schema:
+      type: integer
+    description: The number of items to skip before starting to collect the result set
+  - in: query
+    name: limit
+    schema:
+      type: integer
+    description: The numbers of items to return
+  - in: header
+    name: X-Request-ID
+    schema:
+      type: string
+      format: uuid
+    required: true
+  - in: cookie
+    name: debug
+    schema:
+      type: integer
+      enum: [0, 1]
+      default: 0
+definitions:
+  Attributes:
+    type: object
+    properties:
+      name:
+        type: string
+        example: Carlo
+      phone:
+        type: string
+        example: 0031098765
+      email:
+        type: string
+        example: "some@mail.com"
+      created_at:
+        type: date
+        example: '2019-06-05 13:35:47.928578'
+      updated_at:
+        type: date
+        example: '2019-06-05 13:35:47.928578'
+  UserData:
+    type: object
+    properties:
+      id:
+        type: string
+        example: d13bdba3-7209-4abb-9ad6-7534631a4710
+      attributes:
+        type: object
+        $ref: '#/definitions/Attributes'
+      type:
+        type: string
+        example: User
+  UserDataResponse:
+    type: object
+    properties:
+      meta:
+        $ref: '#/definitions/BaseResponse'
+      data:
+        $ref: '#/definitions/UserData'
+responses:
+  200:
+    description: retrieve user by guid
+    schema:
+      $ref: "#/definitions/UserDataResponse"
+    examples:
+      UserCreationResponse:
+        meta:
+          status: OK
+          status_code: 200
+          message: "user successfully retrieved"
+          transaction_id: 1k838bv9-9876-1234-1a23-5g87165bef5e
+        data:
+          user: 6131697d-39b4-4878-9322-636addd304e5
+  404:
+    description: Requested user returned not found
+    schema:
+      $ref: "#/definitions/BaseResponse"
+    examples:
+      BaseResponse:
+        meta:
+          status: NOT_FOUND
+          status_code: 404
+          message: "user not found"
+          transaction_id: 1k838bv9-9876-1234-1a23-5g87165bef5e
+  500:
+    description: Internal server error. Check logs
+    schema:
+      $ref: '#/definitions/BaseResponse'
+    examples:
+      BaseResponse:
+        status: ERROR
+        status_code: 500
+        message: "internal server error"
+        transaction_id: 1k838bv9-9876-1234-1a23-5g87165bef5e

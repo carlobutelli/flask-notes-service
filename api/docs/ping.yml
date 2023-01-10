@@ -1,0 +1,24 @@
+Check if API is available. Main purpose is to test readiness from the application. Returns a simple pong
+---
+tags:
+  - Ping
+produces:
+  - text/plain
+responses:
+  200:
+    description: OK
+    content:
+      text/plain:
+        schema:
+          type: string
+          example: pong
+  500:
+    description: API is not available. Check logs
+    schema:
+      $ref: '#/definitions/BaseResponse'
+    examples:
+      BaseResponse:
+        status: ERROR
+        status_code: 500
+        message: "internal server error"
+        transaction_id: 1k838bv9-9876-1234-1a23-5g87165bef5e
